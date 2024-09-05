@@ -106,6 +106,10 @@ def create_reservation(theaterId: int, booking : Booking):
 @app.on_event("startup")
 @repeat_every(seconds=60)  # 1 min
 def remove_expired_reservation() -> None:
+    """
+    Task to expire reservations, if timed out
+    and the seat becomes available again
+    """
     for each_booking in bookings:
         if each_booking.booking_type == "reserved" and each_booking.expiry_time < datetime.now():
             each_booking.booking_type = "expired"
